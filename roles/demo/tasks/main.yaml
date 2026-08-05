@@ -5,3 +5,4 @@
 - name: import common role
   import_role:
     name: common
+    task_from: hello.yaml
