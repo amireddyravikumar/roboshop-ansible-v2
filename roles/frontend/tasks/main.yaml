@@ -34,8 +34,4 @@
     template:
       src: nginx.conf.j2
       dest: /etc/nginx/nginx.conf
-  - name: Enable and Start the frontend service
-    service:
-      name: nginx
-      state: restarted
-      enabled: yes
+  - notify: restart nginx
