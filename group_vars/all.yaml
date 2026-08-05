@@ -1,0 +1,12 @@
+ansible_user: ec2-user
+ansible_password: DevOps321
+MONGODB_HOST: mongodb.amireddyravi.space
+REDIS_HOST: redis.amireddyravi.space
+MYSQL_HOST: mysql.amireddyravi.space
+RABBITMQ_HOST: rabbitmq.amireddyravi.space
+
+CATALOGUE_HOST: catalogue.amireddyravi.space
+USER_HOST: user.amireddyravi.space
+CART_HOST: cart.amireddyravi.space
+SHIPPING_HOST: shipping.amireddyravi.space
+PAYMENT_HOST: payment.amireddyravi.space
