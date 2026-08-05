@@ -1,7 +1,15 @@
-- name: copy catalogue service
-  template:
-    src: catalogue.service.j2
-    dest: /etc/systemd/system/catalogue.service
+- name: application setup
+  imort_role:
+    name: common
+    tasks_from: app-setup
+- name: nodejs setup
+  imort_role:
+    name: common
+    tasks_from: nodejs
+- name: systemd setup
+  imort_role:
+    name: common
+    tasks_from: systemd-setup
 - name: copy the mongo repo
   copy:
     src: mongo.repo
@@ -25,10 +33,6 @@
   when: catalogue_output.stdout | int < 0 
   tags:
   - mongodb
-- name: daemon reload
-  systemd_service:
-    name: catalogue
-    daemon_reload: true
 - name: Start the service
   service:
     name: catalogue

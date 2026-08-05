@@ -21,7 +21,7 @@
   get_url:
     url: "https://roboshop-artifacts.s3.amazonaws.com/{{ component }}-v3.zip"
     dest: /tmp/{{ component }}.zip
-- name: Copy and unzip local file to remote server
+- name: unzip local file to remote server
   unarchive:
     src: /tmp/{{ component }}.zip
     dest: /app
