@@ -1,55 +1,31 @@
-  - name: install python 
-    package:
-      name:  "{{ item }}"
-      state: present
-    loop:
-    - python3
-    - gcc
-    - python3-devel
-  - name: create roboshop system user
-    user:
-      name: roboshop
-      system: true 
-      home: /app
-      shell: /sbin/nologin
-      comment: "Roboshop System User"
-  - name: Remove a directory 
-    file:
-      path: /app
-      state: absent
-  - name: delete payment.zip file from tmp folder 
-    file:
-      path: /tmp/payment.zip
-      state: absent
-  - name: create app directory 
-    file:
-      path: /app
-      state: directory
-  - name: Download the payment code
-    get_url:
-      url: https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
-      dest: /tmp/payment.zip
-  - name: Copy and unzip local file to remote server
-    unarchive:
-      src: /tmp/payment.zip
-      dest: /app
-      remote_src: yes  
-  - name: install dependencies
-    pip:
-      requirements: requirements.txt
-      executable: pip3.9
-    args:
-      chdir: /app
-  - name: copy payment service
-    template:
-      src: payment.service.j2
-      dest: /etc/systemd/system/payment.service
-  - name: daemon reload
-    systemd_service:
-      name: payment
-      daemon_reload: true
-  - name: Enable and Start the payment service
-    service:
-      name: payment
-      state: restarted
-      enabled: yes
+- name: application setup
+  import_role:
+    name: common
+    tasks_from: app-setup
+
+- name: install python 
+  package:
+    name:  "{{ item }}"
+    state: present
+  loop:
+  - python3
+  - gcc
+  - python3-devel
+
+- name: install dependencies
+  pip:
+    requirements: requirements.txt
+    executable: pip3.9
+  args:
+    chdir: /app
+
+- name: systemd setup
+  import_role:
+    name: common
+    tasks_from: systed-setup
+
+- name: Enable and Start the payment service
+  service:
+    name: payment
+    state: restarted
+    enabled: yes
