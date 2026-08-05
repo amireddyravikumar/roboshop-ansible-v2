@@ -11,7 +11,7 @@
 - name: systemd setup
   import_role:
     name: common
-    tasks_from: systed-setup
+    tasks_from: systemd-setup
 
 - name: Enable and Start the payment service
   service:
